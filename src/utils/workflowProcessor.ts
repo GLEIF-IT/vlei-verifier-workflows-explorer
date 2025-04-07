@@ -386,13 +386,14 @@ export const processWorkflowAndConfig = (
       // For credential nodes, get information from credentials
       if (step.type === 'issue_credential' && step.credential && config.credentials) {
         const credInfo = config.credentials[step.credential];
+        step.attributes = {...step.attributes, ...credInfo.attributes}
         if (credInfo) {
           configInfo = {
             ...configInfo,
             credType: credInfo.type,
             credSchema: credInfo.schema,
             credPrivacy: credInfo.privacy,
-            credRules: credInfo.rules
+            credRules: credInfo.rules            
           };
         }
       }
