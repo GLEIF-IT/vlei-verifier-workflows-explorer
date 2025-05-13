@@ -4,10 +4,23 @@ import { processWorkflowAndConfig } from './utils/workflowProcessor';
 import { Workflow, Configuration, ProcessedNode } from './types/workflow';
 import Legend from './components/Legend';
 import { Graph } from './components/Graph';
+import WorkflowProgress from './components/WorkflowProgress';
 import './components/Toolbar.css';
 import './components/Graph.css';
+import './components/WorkflowProgress.css';
 import jsYaml from 'js-yaml';
 import './App.css';
+import { loadWorkflow, getConfig, WorkflowRunner, WorkflowState } from '@gleif-it/vlei-verifier-workflows';
+
+// Polyfill for timers/promises
+const timersPromises = {
+  setTimeout: (ms: number) => new Promise(resolve => window.setTimeout(resolve, ms))
+};
+
+// Add the polyfill to window
+(window as any).timers = {
+  promises: timersPromises
+};
 
 const App: React.FC = () => {
   const [nodes, setNodes] = useState<ProcessedNode[]>([]);
@@ -17,9 +30,13 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [workflowFileName, setWorkflowFileName] = useState<string>('');
   const [configFileName, setConfigFileName] = useState<string>('');
-
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [parsedWorkflow, setParsedWorkflow] = useState<any | null>(null);
+  const [parsedConfig, setParsedConfig] = useState<any | null>(null);
   const workflowInputRef = useRef<HTMLInputElement>(null);
   const configInputRef = useRef<HTMLInputElement>(null);
+  const [progressSteps, setProgressSteps] = useState<{step: any, workflowState: WorkflowState}[]>([]);
+  const [showProgress, setShowProgress] = useState(false);
 
   // Log when nodes or edges change
   useEffect(() => {
@@ -48,6 +65,7 @@ const App: React.FC = () => {
       try {
         const content = e.target?.result as string;
         const parsedWorkflow = parseFileContent(content, file.name) as Workflow;
+        setParsedWorkflow(parsedWorkflow); // Store in state for access from other functions
         console.log('Parsed workflow:', parsedWorkflow);
         console.log('Workflow file name:', file.name);
         
@@ -85,6 +103,7 @@ const App: React.FC = () => {
       try {
         const content = e.target?.result as string;
         const parsedConfig = parseFileContent(content, file.name) as Configuration;
+        setParsedConfig(parsedConfig); // Store in state for access from other functions
         console.log('Parsed config:', parsedConfig);
         console.log('Config file name:', file.name);
         
@@ -112,6 +131,51 @@ const App: React.FC = () => {
     };
     reader.readAsText(file);
   }, [workflow]);
+
+  function stepExecutionCallback(step: any, workflowState: WorkflowState) {
+    console.log('Step execution callback triggered');
+    console.log('Step:', step);
+    setProgressSteps(prev => [...prev, { step, workflowState }]);
+  }
+  const handleRunWorkflow = useCallback(async () => {
+    if (!workflow || !config) {
+      setError('Please upload both workflow and configuration files first');
+      return;
+    }
+
+    setIsRunning(true);
+    setError(null);
+    setProgressSteps([]);
+    setShowProgress(true);
+
+    try {
+      console.log('Starting workflow execution...');
+      console.log('Workflow:', workflow);
+      console.log('Config:', config);
+
+      if (parsedWorkflow && parsedConfig) {
+        console.log('Creating WorkflowRunner...');
+        const wr = new WorkflowRunner(parsedWorkflow, parsedConfig);
+        console.log('Running workflow with callback...');
+        try {
+          // Polyfill setTimeout for the library
+          // (window as any).setTimeout = setTimeout;
+          const workflowRunResult = await wr.runWorkflow(stepExecutionCallback);
+          console.log('Workflow run result:', workflowRunResult);
+        } catch (error) {
+          console.error('Inner workflow error:', error);
+          throw error;
+        }
+      }      
+
+    } catch (error: any) {
+      console.error('Error running workflow:', error);
+      setError(error.message || 'Failed to run workflow');
+    } finally {
+      setIsRunning(false);
+    }
+  }, [workflow, config, parsedWorkflow, parsedConfig]);
+
   
   const clearGraph = useCallback(() => {
     setNodes([]);
@@ -121,6 +185,8 @@ const App: React.FC = () => {
     setError(null);
     setWorkflowFileName('');
     setConfigFileName('');
+    setProgressSteps([]);
+    setShowProgress(false);
     if (workflowInputRef.current) workflowInputRef.current.value = '';
     if (configInputRef.current) configInputRef.current.value = '';
   }, []);
@@ -154,10 +220,18 @@ const App: React.FC = () => {
           />
           <label
             htmlFor="config-upload"
-            className="toolbar-button secondary"
+            className="toolbar-button primary"
           >
             Upload Config
           </label>
+          
+          <button
+            className="toolbar-button success"
+            onClick={handleRunWorkflow}
+            disabled={!workflow || !config || isRunning}
+          >
+            {isRunning ? 'Running...' : 'Run Workflow'}
+          </button>
           
           <button
             className="toolbar-button danger"
@@ -178,14 +252,23 @@ const App: React.FC = () => {
         )}
       </div>
 
-      <div className="graph-container">
-        {nodes.length > 0 ? (
-          <Graph initialNodes={nodes} initialEdges={edges} />
-        ) : (
-          <div className="placeholder">
-            Upload a workflow and configuration file to visualize the graph
-          </div>
-        )}
+      <div className="content-container">
+        <div className="graph-container">
+          {nodes.length > 0 ? (
+            <Graph initialNodes={nodes} initialEdges={edges} />
+          ) : (
+            <div className="placeholder">
+              Upload a workflow and configuration file to visualize the graph
+            </div>
+          )}
+          {showProgress && (
+            <WorkflowProgress 
+              steps={progressSteps} 
+              isRunning={isRunning} 
+              onClose={() => setShowProgress(false)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
