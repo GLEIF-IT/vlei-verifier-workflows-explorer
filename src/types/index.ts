@@ -1,6 +1,7 @@
 export type WorkflowStepType = 
   | 'create_client'
   | 'create_aid'
+  | 'create_aid_kli'
   | 'create_registry'
   | 'issue_credential'
   | 'revoke_credential'
@@ -17,6 +18,7 @@ export interface WorkflowStep {
   issuee_aid?: string;
   credential?: string;
   credential_source?: string;
+  initiator?: string;
 }
 
 export interface Workflow {

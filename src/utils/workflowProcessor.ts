@@ -4,6 +4,7 @@ import { Workflow, Configuration, ProcessedNode } from '../types/workflow';
 // Define the types of steps we want to include in the graph
 const ALLOWED_STEP_TYPES = [
   'create_aid',
+  'create_aid_kli',
   'issue_credential',
   'revoke_credential'
 ];
@@ -212,11 +213,17 @@ export const processWorkflowAndConfig = (
   
   console.log('Filtered steps:', filteredSteps);
   console.log('Allowed step types:', ALLOWED_STEP_TYPES);
+
+  // Check if there are any create_aid_kli steps
+  const kliSteps = Object.entries(workflow.workflow.steps)
+    .filter(([_, step]) => step.type === 'create_aid_kli');
+  console.log('KLI steps found:', kliSteps);
   
   // Check if there are any create_aid steps
   const aidSteps = Object.entries(workflow.workflow.steps)
     .filter(([_, step]) => step.type === 'create_aid');
   console.log('AID steps found:', aidSteps);
+
   
   // Find root of trust steps
   const rotSteps = Object.entries(workflow.workflow.steps)

@@ -1,7 +1,7 @@
 {
   "name": "keri-explorer",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@gleif-it/vlei-verifier-workflows": "0.1.0",
+    "@gleif-it/vlei-verifier-workflows": "0.1.1",
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@types/js-yaml": "^4.0.9",
