@@ -2,6 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import { WorkflowRunner, WorkflowState } from '@gleif-it/vlei-verifier-workflows';
 import { Request, Response } from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path';
+
+// ES Module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Set global.__dirname for packages that might need it
+(global as any).__dirname = __dirname;
 
 const app = express();
 const port = process.env.PORT || 3001;
