@@ -10,7 +10,7 @@ import './components/Graph.css';
 import './components/WorkflowProgress.css';
 import jsYaml from 'js-yaml';
 import './App.css';
-import { loadWorkflow, getConfig, WorkflowRunner, WorkflowState } from '@gleif-it/vlei-verifier-workflows';
+import { WorkflowState } from '@gleif-it/vlei-verifier-workflows';
 
 // Polyfill for timers/promises
 const timersPromises = {
@@ -132,11 +132,6 @@ const App: React.FC = () => {
     reader.readAsText(file);
   }, [workflow]);
 
-  function stepExecutionCallback(step: any, workflowState: WorkflowState) {
-    console.log('Step execution callback triggered');
-    console.log('Step:', step);
-    setProgressSteps(prev => [...prev, { step, workflowState }]);
-  }
   const handleRunWorkflow = useCallback(async () => {
     if (!workflow || !config) {
       setError('Please upload both workflow and configuration files first');
@@ -150,28 +145,63 @@ const App: React.FC = () => {
 
     try {
       console.log('Starting workflow execution...');
-      console.log('Workflow:', workflow);
-      console.log('Config:', config);
+      
+      const response = await fetch('http://localhost:3001/run-workflow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          workflow: parsedWorkflow,
+          config: parsedConfig,
+        }),
+      });
 
-      if (parsedWorkflow && parsedConfig) {
-        console.log('Creating WorkflowRunner...');
-        const wr = new WorkflowRunner(parsedWorkflow, parsedConfig);
-        console.log('Running workflow with callback...');
-        try {
-          // Polyfill setTimeout for the library
-          // (window as any).setTimeout = setTimeout;
-          const workflowRunResult = await wr.runWorkflow(stepExecutionCallback);
-          console.log('Workflow run result:', workflowRunResult);
-        } catch (error) {
-          console.error('Inner workflow error:', error);
-          throw error;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('Response body is not readable');
+      }
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        // Convert the Uint8Array to a string
+        const text = new TextDecoder().decode(value);
+        const lines = text.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = JSON.parse(line.slice(6));
+            
+            if (data.type === 'error') {
+              setError(data.error);
+              setIsRunning(false);
+              return;
+            }
+
+            if (data.type === 'complete') {
+              console.log('Workflow completed:', data.result);
+              setIsRunning(false);
+              return;
+            }
+
+            // Handle step updates
+            setProgressSteps(prev => [...prev, { 
+              step: data.step, 
+              workflowState: data.workflowState 
+            }]);
+          }
         }
-      }      
+      }
 
     } catch (error: any) {
       console.error('Error running workflow:', error);
       setError(error.message || 'Failed to run workflow');
-    } finally {
       setIsRunning(false);
     }
   }, [workflow, config, parsedWorkflow, parsedConfig]);

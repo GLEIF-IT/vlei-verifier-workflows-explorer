@@ -13,8 +13,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'assert': 'assert',
-      'assert/strict': 'assert/strict',
       'timers/promises': path.resolve(__dirname, 'src/utils/timerPromises.ts'),
     }
   },
