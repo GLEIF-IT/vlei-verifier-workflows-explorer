@@ -210,6 +210,6 @@ This project is licensed under the Apache-2.0 License - see the LICENSE file for
 ## Related Projects
 
 - [VLEI Verifier](https://github.com/GLEIF-IT/vlei-verifier)
-- [VLEI QVI](https://github.com/GLEIF-IT/vlei-qvi)
+- [VLEI](https://github.com/WebOfTrust/vLEI)
 - [KERIA](https://github.com/WebOfTrust/keria)
 - [VLEI Verifier Workflows](https://github.com/GLEIF-IT/vlei-verifier-workflows)
