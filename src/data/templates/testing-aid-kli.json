@@ -1,0 +1,94 @@
+{
+  "id": "testing-aid-kli",
+  "name": "Test AID KLI",
+  "description": "Workflow for testing AID creation using KLI ",
+  "author": "GLEIF",
+  "version": "1.0.0",
+  "createdDate": "2025-06-20T10:00:00Z",
+  "tags": ["testing", "aid", "kli", "multisig"],
+  "workflow": {
+    "workflow": {
+      "steps": {
+        "gleif_external_aid": {
+          "id": "gleif_external_aid",
+          "type": "create_aid_kli",
+          "aid": "gleif-external-aid",
+          "description": "Creating AID: gleif-external-aid"
+        },
+        "qvi_aid_1": {
+          "id": "qvi_aid_1",
+          "type": "create_aid_kli",
+          "aid": "qvi-aid-1",
+          "description": "Creating AID: qvi-aid-1 via KLI"
+        },
+        "qvi_aid_2": {
+          "id": "qvi_aid_2",
+          "type": "create_aid_kli",
+          "aid": "qvi-aid-2",
+          "description": "Creating AID: qvi-aid-2 via KLI"
+        },
+        "qvi_aid_3": {
+          "id": "qvi_aid_3",
+          "type": "create_aid_kli",
+          "aid": "qvi-aid-3",
+          "description": "Creating AID: qvi-aid-3 via KLI"
+        },
+        "qvi_aid_multisig_1": {
+          "id": "qvi_aid_multisig_1",
+          "type": "create_aid_kli",
+          "initiator": "qvi-aid-1",
+          "aid": "qvi-multisig-1",
+          "description": "Creating AID: qvi-multisig-1 via KLI"
+        }
+      }
+    }
+  },
+  "config": {
+    "secrets": {
+      "gleif-external": "D_PbQb01zuzQgKatestq1",
+      "qvi1": "BTaqgh1eeOjXO5iQJp6m1",
+      "qvi2": "BTaqgh1eeOjXO5iQJp6m2",
+      "qvi3": "BTaqgh1eeOjXO5iQJp6m3"
+    },
+    "credentials": {},
+    "agents": {
+      "gleif-external-agent": {
+        "secret": "gleif-external"
+      },
+      "qvi-agent-1": {
+        "secret": "qvi1"
+      },
+      "qvi-agent-2": {
+        "secret": "qvi2"
+      },
+      "qvi-agent-3": {
+        "secret": "qvi3"
+      }
+    },
+    "identifiers": {
+      "gleif-external-aid": {
+        "agent": "gleif-external-agent",
+        "name": "gleif-external-aid"
+      },
+      "qvi-aid-1": {
+        "agent": "qvi-agent-1",
+        "name": "qvi-aid-1"
+      },
+      "qvi-aid-2": {
+        "agent": "qvi-agent-2",
+        "name": "qvi-aid-2"
+      },
+      "qvi-aid-3": {
+        "agent": "qvi-agent-3",
+        "name": "qvi-aid-3"
+      },
+      "qvi-multisig-1": {
+        "name": "qvi-multisig-1",
+        "delegator": "gleif-external-aid",
+        "identifiers": ["qvi-aid-1", "qvi-aid-2", "qvi-aid-3"],
+        "isith": 3,
+        "nsith": 3
+      }
+    }
+  }
+} 

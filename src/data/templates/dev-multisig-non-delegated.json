@@ -1,0 +1,473 @@
+{
+  "id": "dev-multisig-non-delegated",
+  "name": "Dev MultiSig Non-Delegated",
+  "description": "Development workflow with non-delegated QVI AIDs for testing delegation scenarios",
+  "author": "GLEIF",
+  "version": "1.0.0",
+  "createdDate": "2025-06-20T10:00:00Z",
+  "tags": ["dev", "multisig", "non-delegated", "testing", "credential"],
+  "workflow": {
+    "workflow": {
+      "steps": {
+        "gleif_client_1": {
+          "id": "gleif_client_1",
+          "type": "create_client",
+          "agent_name": "gleif-agent-1",
+          "description": "Creating client for gleif-agent-1"
+        },
+        "gleif_client_2": {
+          "id": "gleif_client_2",
+          "type": "create_client",
+          "agent_name": "gleif-agent-2",
+          "description": "Creating client for gleif-agent-2"
+        },
+        "qvi_client_1": {
+          "id": "qvi_client_1",
+          "type": "create_client",
+          "agent_name": "qvi-agent-1",
+          "description": "Creating client for qvi-agent-1"
+        },
+        "qvi_client_2": {
+          "id": "qvi_client_2",
+          "type": "create_client",
+          "agent_name": "qvi-agent-2",
+          "description": "Creating client for qvi-agent-2"
+        },
+        "qvi_client_3": {
+          "id": "qvi_client_3",
+          "type": "create_client",
+          "agent_name": "qvi-agent-3",
+          "description": "Creating client for qvi-agent-3"
+        },
+        "le_client_1": {
+          "id": "le_client_1",
+          "type": "create_client",
+          "agent_name": "le-agent-1",
+          "description": "Creating client for le-agent-1"
+        },
+        "le_client_2": {
+          "id": "le_client_2",
+          "type": "create_client",
+          "agent_name": "le-agent-2",
+          "description": "Creating client for le-agent-2"
+        },
+        "le_client_3": {
+          "id": "le_client_3",
+          "type": "create_client",
+          "agent_name": "le-agent-3",
+          "description": "Creating client for le-agent-3"
+        },
+        "ecr_client": {
+          "id": "ecr_client",
+          "type": "create_client",
+          "agent_name": "ecr-agent-1",
+          "description": "Creating client for ecr-agent-1"
+        },
+        "gleif_aid_1": {
+          "id": "gleif_aid_1",
+          "type": "create_aid",
+          "aid": "gleif-aid-1",
+          "description": "Creating AID: gleif-aid-1"
+        },
+        "gleif_aid_2": {
+          "id": "gleif_aid_2",
+          "type": "create_aid",
+          "aid": "gleif-aid-2",
+          "description": "Creating AID: gleif-aid-2"
+        },
+        "gleif_aid_multisig_1": {
+          "id": "gleif_aid_multisig_1",
+          "type": "create_aid",
+          "aid": "gleif-multisig-1",
+          "description": "Creating AID: gleif-multisig-1"
+        },
+        "qvi_aid_1": {
+          "id": "qvi_aid_1",
+          "type": "create_aid",
+          "aid": "qvi-aid-1",
+          "description": "Creating AID: qvi-aid-1"
+        },
+        "qvi_aid_2": {
+          "id": "qvi_aid_2",
+          "type": "create_aid",
+          "aid": "qvi-aid-2",
+          "description": "Creating AID: qvi-aid-2"
+        },
+        "qvi_aid_3": {
+          "id": "qvi_aid_3",
+          "type": "create_aid",
+          "aid": "qvi-aid-3",
+          "description": "Creating AID: qvi-aid-3"
+        },
+        "qvi_aid_multisig_1": {
+          "id": "qvi_aid_multisig_1",
+          "type": "create_aid",
+          "aid": "qvi-multisig-1",
+          "description": "Creating AID: qvi-multisig-1"
+        },
+        "le_aid_1": {
+          "id": "le_aid_1",
+          "type": "create_aid",
+          "aid": "le-aid-1",
+          "description": "Creating AID: le-aid-1"
+        },
+        "le_aid_2": {
+          "id": "le_aid_2",
+          "type": "create_aid",
+          "aid": "le-aid-2",
+          "description": "Creating AID: le-aid-2"
+        },
+        "le_aid_3": {
+          "id": "le_aid_3",
+          "type": "create_aid",
+          "aid": "le-aid-3",
+          "description": "Creating AID: le-aid-3"
+        },
+        "le_aid_multisig_1": {
+          "id": "le_aid_multisig_1",
+          "type": "create_aid",
+          "aid": "le-multisig-1",
+          "description": "Creating AID: le-multisig-1"
+        },
+        "ecr_aid": {
+          "id": "ecr_aid",
+          "type": "create_aid",
+          "aid": "ecr-aid-1",
+          "description": "Creating AID: ecr-aid-1"
+        },
+        "gleif_registry_1": {
+          "id": "gleif_registry_1",
+          "type": "create_registry",
+          "aid": "gleif-aid-1",
+          "description": "Creating registry for gleif-aid-1"
+        },
+        "gleif_registry_2": {
+          "id": "gleif_registry_2",
+          "type": "create_registry",
+          "aid": "gleif-aid-2",
+          "description": "Creating registry for gleif-aid-2"
+        },
+        "gleif_registry_multisig_1": {
+          "id": "gleif_registry_multisig_1",
+          "type": "create_registry",
+          "aid": "gleif-multisig-1",
+          "description": "Creating registry for gleif-multisig-1"
+        },
+        "qvi_registry_1": {
+          "id": "qvi_registry_1",
+          "type": "create_registry",
+          "aid": "qvi-aid-1",
+          "description": "Creating registry for qvi-aid-1"
+        },
+        "qvi_registry_2": {
+          "id": "qvi_registry_2",
+          "type": "create_registry",
+          "aid": "qvi-aid-2",
+          "description": "Creating registry for qvi-aid-2"
+        },
+        "qvi_registry_3": {
+          "id": "qvi_registry_3",
+          "type": "create_registry",
+          "aid": "qvi-aid-3",
+          "description": "Creating registry for qvi-aid-3"
+        },
+        "qvi_registry_multisig_1": {
+          "id": "qvi_registry_multisig_1",
+          "type": "create_registry",
+          "aid": "qvi-multisig-1",
+          "description": "Creating registry for qvi-multisig-1"
+        },
+        "le_registry_1": {
+          "id": "le_registry_1",
+          "type": "create_registry",
+          "aid": "le-aid-1",
+          "description": "Creating registry for le-aid-1"
+        },
+        "le_registry_2": {
+          "id": "le_registry_2",
+          "type": "create_registry",
+          "aid": "le-aid-2",
+          "description": "Creating registry for le-aid-2"
+        },
+        "le_registry_3": {
+          "id": "le_registry_3",
+          "type": "create_registry",
+          "aid": "le-aid-3",
+          "description": "Creating registry for le-aid-3"
+        },
+        "le_registry_multisig_1": {
+          "id": "le_registry_multisig_1",
+          "type": "create_registry",
+          "aid": "le-multisig-1",
+          "description": "Creating registry for le-multisig-1"
+        },
+        "ecr_registry": {
+          "id": "ecr_registry",
+          "type": "create_registry",
+          "aid": "ecr-aid-1",
+          "description": "Creating registry for ecr-aid-1"
+        },
+        "qvi_cred": {
+          "id": "qvi_cred",
+          "type": "issue_credential",
+          "attributes": {
+            "LEI": "254900OPPU84GM83MG36"
+          },
+          "issuer_aid": "gleif-multisig-1",
+          "issuee_aid": "qvi-multisig-1",
+          "description": "GLEIF issues QVI vLEI credential",
+          "credential": "gleif_to_qvi_vlei_cred"
+        },
+        "le_cred": {
+          "id": "le_cred",
+          "type": "issue_credential",
+          "attributes": {
+            "LEI": "875500ELOZEL05BVXV37"
+          },
+          "issuer_aid": "qvi-multisig-1",
+          "issuee_aid": "le-multisig-1",
+          "description": "QVI issues LE vLEI credential",
+          "credential": "qvi_to_le_vlei_cred",
+          "credential_source": "qvi_cred"
+        },
+        "ecr_cred": {
+          "id": "ecr_cred",
+          "type": "issue_credential",
+          "attributes": {
+            "personLegalName": "John Doe",
+            "LEI": "875500ELOZEL05BVXV37"
+          },
+          "issuer_aid": "le-multisig-1",
+          "issuee_aid": "ecr-aid-1",
+          "description": "LE issues ECR vLEI credential",
+          "credential": "le_to_ecr_vlei_cred",
+          "credential_source": "le_cred"
+        },
+        "add_root_of_trust": {
+          "id": "add_root_of_trust",
+          "type": "add_root_of_trust",
+          "rot_aid": "gleif-multisig-1",
+          "rot_member_aid": "gleif-aid-1",
+          "description": "Adding Root of Trust"
+        },
+        "credential_verification_no_delegation_valid_not_verified": {
+          "id": "credential_verification_no_delegation_valid_not_verified",
+          "type": "vlei_verification",
+          "description": "Running Vlei Verification",
+          "actions": {
+            "present": {
+              "credential": "ecr_cred",
+              "type": "credential_presentation",
+              "expected_status": "cred_crypt_valid"
+            },
+            "authorize": {
+              "aid": "ecr-aid-1",
+              "type": "credential_authorization",
+              "expected_status": "cred_non_delegated_qvi"
+            }
+          }
+        }
+      }
+    }
+  },
+  "config": {
+    "secrets": {
+      "gleif1": "D_PbQb01zuzQgK-kDWjq1",
+      "gleif2": "D_PbQb01zuzQgK-kDWjq2",
+      "qvi1": "BTaqgh1eeOjXO5iQJp6m1",
+      "qvi2": "BTaqgh1eeOjXO5iQJp6m2",
+      "qvi3": "BTaqgh1eeOjXO5iQJp6m3",
+      "le1": "Lf8nafHfan8fnafnnnfa1",
+      "le2": "Lf8nafHfan8fnafnnnfa2",
+      "le3": "Lf8nafHfan8fnafnnnfa3",
+      "ecr1": "nf98hUHUy8Vt5tvdyaYV7"
+    },
+    "credentials": {
+      "gleif_to_qvi_vlei_cred": {
+        "type": "direct",
+        "schema": "QVI_SCHEMA_SAID",
+        "privacy": false,
+        "attributes": {}
+      },
+      "qvi_to_le_vlei_cred": {
+        "credSource": {
+          "type": "qvi"
+        },
+        "type": "direct",
+        "schema": "LE_SCHEMA_SAID",
+        "rules": "LE_RULES",
+        "privacy": false,
+        "attributes": {}
+      },
+      "le_to_ecr_vlei_cred": {
+        "credSource": {
+          "type": "le"
+        },
+        "type": "direct",
+        "schema": "ECR_SCHEMA_SAID",
+        "rules": "ECR_RULES",
+        "privacy": true,
+        "attributes": {
+          "engagementContextRole": "EBA Data Submitter"
+        }
+      },
+      "le_to_qvi_ecr_auth_cred": {
+        "credSource": {
+          "type": "le"
+        },
+        "type": "direct",
+        "schema": "ECR_AUTH_SCHEMA_SAID",
+        "rules": "ECR_AUTH_RULES",
+        "privacy": false,
+        "attributes": {
+          "engagementContextRole": "EBA Data Submitter"
+        }
+      },
+      "qvi_to_ecr_vlei_cred_from_le_to_qvi_ecr_auth_cred": {
+        "credSource": {
+          "type": "auth",
+          "o": "I2I"
+        },
+        "type": "direct",
+        "schema": "ECR_SCHEMA_SAID",
+        "rules": "ECR_RULES",
+        "privacy": true,
+        "attributes": {
+          "engagementContextRole": "EBA Data Submitter"
+        }
+      },
+      "le_to_qvi_oor_auth_cred": {
+        "credSource": {
+          "type": "le"
+        },
+        "type": "direct",
+        "schema": "OOR_AUTH_SCHEMA_SAID",
+        "rules": "OOR_AUTH_RULES",
+        "privacy": false,
+        "attributes": {
+          "officialRole": "HR Manager"
+        }
+      },
+      "qvi_to_ecr_vlei_oor_cred_from_le_to_qvi_oor_auth_cred": {
+        "credSource": {
+          "type": "auth",
+          "o": "I2I"
+        },
+        "type": "direct",
+        "schema": "OOR_SCHEMA_SAID",
+        "rules": "OOR_RULES",
+        "privacy": false,
+        "attributes": {
+          "officialRole": "HR Manager"
+        }
+      }
+    },
+    "agents": {
+      "gleif-agent-1": {
+        "secret": "gleif1"
+      },
+      "gleif-agent-2": {
+        "secret": "gleif2"
+      },
+      "qvi-agent-1": {
+        "secret": "qvi1"
+      },
+      "qvi-agent-2": {
+        "secret": "qvi2"
+      },
+      "qvi-agent-3": {
+        "secret": "qvi3"
+      },
+      "le-agent-1": {
+        "secret": "le1"
+      },
+      "le-agent-2": {
+        "secret": "le2"
+      },
+      "le-agent-3": {
+        "secret": "le3"
+      },
+      "ecr-agent-1": {
+        "secret": "ecr1"
+      }
+    },
+    "identifiers": {
+      "gleif-aid-1": {
+        "agent": "gleif-agent-1",
+        "name": "gleif-aid-1"
+      },
+      "gleif-aid-2": {
+        "agent": "gleif-agent-2",
+        "name": "gleif-aid-2"
+      },
+      "gleif-multisig-1": {
+        "name": "gleif-multisig-1",
+        "identifiers": ["gleif-aid-1", "gleif-aid-2"],
+        "isith": ["1/2", "1/2"],
+        "nsith": ["1/2", "1/2"]
+      },
+      "qvi-aid-1": {
+        "agent": "qvi-agent-1",
+        "name": "qvi-aid-1"
+      },
+      "qvi-aid-2": {
+        "agent": "qvi-agent-2",
+        "name": "qvi-aid-2"
+      },
+      "qvi-aid-3": {
+        "agent": "qvi-agent-3",
+        "name": "qvi-aid-3"
+      },
+      "qvi-multisig-1": {
+        "name": "qvi-multisig-1",
+        "identifiers": ["qvi-aid-1", "qvi-aid-2", "qvi-aid-3"],
+        "isith": ["2/3", "1/2", "1/2"],
+        "nsith": ["2/3", "1/2", "1/2"]
+      },
+      "le-aid-1": {
+        "agent": "le-agent-1",
+        "name": "le-aid-1"
+      },
+      "le-aid-2": {
+        "agent": "le-agent-2",
+        "name": "le-aid-2"
+      },
+      "le-aid-3": {
+        "agent": "le-agent-3",
+        "name": "le-aid-3"
+      },
+      "le-multisig-1": {
+        "name": "le-multisig-1",
+        "identifiers": ["le-aid-1", "le-aid-2", "le-aid-3"],
+        "isith": ["2/3", "1/2", "1/2"],
+        "nsith": ["2/3", "1/2", "1/2"]
+      },
+      "ecr-aid-1": {
+        "agent": "ecr-agent-1",
+        "name": "ecr-aid-1"
+      }
+    },
+    "users": [
+      {
+        "type": "GLEIF",
+        "alias": "gleif-user-1",
+        "identifiers": ["gleif-aid-1", "gleif-aid-2", "gleif-multisig-1"]
+      },
+      {
+        "type": "QVI",
+        "alias": "qvi-user-1",
+        "identifiers": ["qvi-aid-1", "qvi-aid-2", "qvi-aid-3", "qvi-multisig-1"]
+      },
+      {
+        "type": "LE",
+        "alias": "le-user-1",
+        "identifiers": ["le-aid-1", "le-aid-2", "le-aid-3", "le-multisig-1"]
+      },
+      {
+        "type": "ECR",
+        "alias": "ecr-user-1",
+        "identifiers": ["ecr-aid-1"]
+      }
+    ]
+  }
+} 

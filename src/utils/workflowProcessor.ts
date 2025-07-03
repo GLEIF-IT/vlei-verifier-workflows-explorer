@@ -288,6 +288,7 @@ export const processWorkflowAndConfig = (
         data: {
           label: aidData.name || aidId,
           description: `AID: ${aidId}`,
+          stepType: 'create_aid',
           type: 'AID',
           delegator: delegator,
           'agent-secret': agentSecret,
@@ -337,6 +338,7 @@ export const processWorkflowAndConfig = (
         data: {
           label: multisigData.name || multisigId,
           description: `Multisig AID: ${multisigId}`,
+          stepType: 'create_aid',
           type: 'Multisig',
           delegator: delegator,
           isMultisig: true,

@@ -79,7 +79,7 @@ export const Graph: React.FC<GraphProps> = ({ initialNodes, initialEdges }) => {
   }, [nodes, edges]);
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -103,7 +103,6 @@ export const Graph: React.FC<GraphProps> = ({ initialNodes, initialEdges }) => {
       >
         <Background />
         <Controls />
-        <Legend />
         <Panel position="top-left" className="graph-info">
           <div>
             <strong>Nodes:</strong> {nodes.length}
@@ -112,6 +111,7 @@ export const Graph: React.FC<GraphProps> = ({ initialNodes, initialEdges }) => {
           </div>
         </Panel>
       </ReactFlow>
+      <Legend />
     </div>
   );
 }; 

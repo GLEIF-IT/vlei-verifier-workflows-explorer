@@ -2,9 +2,13 @@ import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { Edge } from 'reactflow';
 import { processWorkflowAndConfig } from './utils/workflowProcessor';
 import { Workflow, Configuration, ProcessedNode } from './types/workflow';
+import { ExportedTemplate } from './types/template';
 import Legend from './components/Legend';
 import { Graph } from './components/Graph';
 import WorkflowProgress from './components/WorkflowProgress';
+import TemplatesPage from './pages/TemplatesPage';
+import { WorkflowBuilderPage } from './pages/WorkflowBuilderPage';
+import { exportWorkflowAndConfig, exportAsTemplate } from './utils/exportUtils';
 import './components/Toolbar.css';
 import './components/Graph.css';
 import './components/WorkflowProgress.css';
@@ -28,6 +32,7 @@ const App: React.FC = () => {
   const [workflow, setWorkflow] = useState<Workflow | null>(null);
   const [config, setConfig] = useState<Configuration | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [workflowFileName, setWorkflowFileName] = useState<string>('');
   const [configFileName, setConfigFileName] = useState<string>('');
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -37,6 +42,7 @@ const App: React.FC = () => {
   const configInputRef = useRef<HTMLInputElement>(null);
   const [progressSteps, setProgressSteps] = useState<{step: any, workflowState: WorkflowState}[]>([]);
   const [showProgress, setShowProgress] = useState(false);
+  const [currentView, setCurrentView] = useState<'main' | 'templates' | 'builder'>('main');
 
   // Log when nodes or edges change
   useEffect(() => {
@@ -44,6 +50,16 @@ const App: React.FC = () => {
     console.log('Nodes:', nodes);
     console.log('Edges:', edges);
   }, [nodes, edges]);
+
+  // Auto-clear success messages after 3 seconds
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
   const parseFileContent = (text: string, fileName: string) => {
     // Check if the file is YAML based on extension
@@ -76,6 +92,7 @@ const App: React.FC = () => {
         setWorkflow(parsedWorkflow);
         setWorkflowFileName(file.name);
         setError(null);
+        setSuccess(null);
         
         if (config) {
           console.log('Processing workflow with existing config');
@@ -89,6 +106,7 @@ const App: React.FC = () => {
       } catch (error) {
         console.error('Error parsing workflow:', error);
         setError('Error parsing workflow file');
+        setSuccess(null);
       }
     };
     reader.readAsText(file);
@@ -107,13 +125,10 @@ const App: React.FC = () => {
         console.log('Parsed config:', parsedConfig);
         console.log('Config file name:', file.name);
         
-        // Check if this is a revocation config
-        const isRevocationConfig = file.name.includes('revocation');
-        console.log('Is revocation config:', isRevocationConfig);
-        
         setConfig(parsedConfig);
         setConfigFileName(file.name);
         setError(null);
+        setSuccess(null);
         
         if (workflow) {
           console.log('Processing config with existing workflow');
@@ -126,11 +141,38 @@ const App: React.FC = () => {
         }
       } catch (error) {
         console.error('Error parsing config:', error);
-        setError('Error parsing configuration file');
+        setError('Error parsing config file');
+        setSuccess(null);
       }
     };
     reader.readAsText(file);
   }, [workflow]);
+
+  const handleLoadTemplate = useCallback((template: ExportedTemplate) => {
+    console.log('Loading template:', template.name);
+    
+    // Set workflow and config from template
+    setWorkflow(template.workflow);
+    setConfig(template.config);
+    setParsedWorkflow(template.workflow);
+    setParsedConfig(template.config);
+    
+    // Set file names
+    setWorkflowFileName(`${template.name} (Template)`);
+    setConfigFileName(`${template.name} (Template)`);
+    
+    // Process workflow and config
+    const { nodes: newNodes, edges: newEdges } = processWorkflowAndConfig(template.workflow, template.config);
+    setNodes(newNodes);
+    setEdges(newEdges);
+    
+    // Switch to main view
+    setCurrentView('main');
+    setError(null);
+    setSuccess(null);
+    
+    console.log('Template loaded successfully');
+  }, []);
 
   const handleRunWorkflow = useCallback(async () => {
     if (!workflow || !config) {
@@ -213,6 +255,7 @@ const App: React.FC = () => {
     setWorkflow(null);
     setConfig(null);
     setError(null);
+    setSuccess(null);
     setWorkflowFileName('');
     setConfigFileName('');
     setProgressSteps([]);
@@ -220,86 +263,170 @@ const App: React.FC = () => {
     if (workflowInputRef.current) workflowInputRef.current.value = '';
     if (configInputRef.current) configInputRef.current.value = '';
   }, []);
+
+  const handleExportWorkflowAndConfig = useCallback(() => {
+    if (!workflow || !config) {
+      setError('Please upload both workflow and configuration files first');
+      setSuccess(null);
+      return;
+    }
+    
+    try {
+      exportWorkflowAndConfig(workflow, config, workflowFileName, configFileName);
+      setError(null);
+      setSuccess('Workflow and configuration exported successfully');
+    } catch (error) {
+      console.error('Error exporting workflow and config:', error);
+      setError('Failed to export workflow and config');
+      setSuccess(null);
+    }
+  }, [workflow, config, workflowFileName, configFileName]);
+
+  const handleExportAsTemplate = useCallback(() => {
+    if (!workflow || !config) {
+      setError('Please upload both workflow and configuration files first');
+      setSuccess(null);
+      return;
+    }
+    
+    try {
+      exportAsTemplate(workflow, config, workflowFileName, configFileName);
+      setError(null);
+      setSuccess('Workflow and configuration exported as template successfully');
+    } catch (error) {
+      console.error('Error exporting as template:', error);
+      setError('Failed to export as template');
+      setSuccess(null);
+    }
+  }, [workflow, config, workflowFileName, configFileName]);
   
   return (
     <div className="app-container">
-      <div className="toolbar">
-        <div className="upload-section">
-          <input
-            ref={workflowInputRef}
-            type="file"
-            accept=".yaml,.yml"
-            onChange={handleWorkflowUpload}
-            className="file-input"
-            id="workflow-upload"
-          />
-          <label
-            htmlFor="workflow-upload"
-            className="toolbar-button primary"
-          >
-            Upload Workflow
-          </label>
-          
-          <input
-            ref={configInputRef}
-            type="file"
-            accept=".json"
-            onChange={handleConfigUpload}
-            className="file-input"
-            id="config-upload"
-          />
-          <label
-            htmlFor="config-upload"
-            className="toolbar-button primary"
-          >
-            Upload Config
-          </label>
-          
-          <button
-            className="toolbar-button success"
-            onClick={handleRunWorkflow}
-            disabled={!workflow || !config || isRunning}
-          >
-            {isRunning ? 'Running...' : 'Run Workflow'}
-          </button>
-          
-          <button
-            className="toolbar-button danger"
-            onClick={clearGraph}
-            disabled={!workflow && !config}
-          >
-            Clear Graph
-          </button>
-        </div>
-
-        {error && <div className="error-message">{error}</div>}
-        
-        {workflow && config && (
-          <div className="file-info">
-            <div>Workflow: {workflowFileName}</div>
-            <div>Configuration: {configFileName}</div>
-          </div>
-        )}
+      {/* Navigation */}
+      <div className="navigation">
+        <button
+          className={`nav-button ${currentView === 'main' ? 'active' : ''}`}
+          onClick={() => setCurrentView('main')}
+        >
+          Explorer
+        </button>
+        <button
+          className={`nav-button ${currentView === 'templates' ? 'active' : ''}`}
+          onClick={() => setCurrentView('templates')}
+        >
+          Templates
+        </button>
+        <button
+          className={`nav-button ${currentView === 'builder' ? 'active' : ''}`}
+          onClick={() => setCurrentView('builder')}
+        >
+          Workflow Builder
+        </button>
       </div>
 
-      <div className="content-container">
-        <div className="graph-container">
-          {nodes.length > 0 ? (
-            <Graph initialNodes={nodes} initialEdges={edges} />
-          ) : (
-            <div className="placeholder">
-              Upload a workflow and configuration file to visualize the graph
+      {currentView === 'main' ? (
+        <>
+          <div className="toolbar">
+            <div className="upload-section">
+              <input
+                ref={workflowInputRef}
+                type="file"
+                accept=".yaml,.yml"
+                onChange={handleWorkflowUpload}
+                className="file-input"
+                id="workflow-upload"
+              />
+              <label
+                htmlFor="workflow-upload"
+                className="toolbar-button primary"
+              >
+                Upload Workflow
+              </label>
+              
+              <input
+                ref={configInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleConfigUpload}
+                className="file-input"
+                id="config-upload"
+              />
+              <label
+                htmlFor="config-upload"
+                className="toolbar-button primary"
+              >
+                Upload Config
+              </label>
+              
+              <button
+                className="toolbar-button success"
+                onClick={handleRunWorkflow}
+                disabled={!workflow || !config || isRunning}
+              >
+                {isRunning ? 'Running...' : 'Run Workflow'}
+              </button>
+              
+              <button
+                className="toolbar-button danger"
+                onClick={clearGraph}
+                disabled={!workflow && !config}
+              >
+                Clear Graph
+              </button>
+              
+              <button
+                className="toolbar-button export"
+                onClick={handleExportWorkflowAndConfig}
+                disabled={!workflow || !config}
+              >
+                Export Workflow+Config
+              </button>
+              
+              <button
+                className="toolbar-button export"
+                onClick={handleExportAsTemplate}
+                disabled={!workflow || !config}
+              >
+                Export as Template
+              </button>
             </div>
-          )}
-          {showProgress && (
-            <WorkflowProgress 
-              steps={progressSteps} 
-              isRunning={isRunning} 
-              onClose={() => setShowProgress(false)}
-            />
-          )}
-        </div>
-      </div>
+
+            {error && <div className="error-message">{error}</div>}
+            
+            {success && <div className="success-message">{success}</div>}
+            
+            {workflow && config && (
+              <div className="file-info">
+                <div>Workflow: {workflowFileName}</div>
+                <div>Configuration: {configFileName}</div>
+              </div>
+            )}
+          </div>
+
+          <div className="content-container">
+            <div className="graph-container">
+              {nodes.length > 0 ? (
+                <Graph initialNodes={nodes} initialEdges={edges} />
+              ) : (
+                <div className="placeholder">
+                  Upload a workflow and configuration file to visualize the graph
+                </div>
+              )}
+              {showProgress && (
+                <WorkflowProgress 
+                  steps={progressSteps} 
+                  isRunning={isRunning} 
+                  onClose={() => setShowProgress(false)}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      ) : currentView === 'templates' ? (
+        <TemplatesPage onLoadTemplate={handleLoadTemplate} />
+      ) : (
+        <WorkflowBuilderPage />
+      )}
     </div>
   );
 };

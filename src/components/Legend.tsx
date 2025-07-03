@@ -1,5 +1,4 @@
 import React from 'react';
-import { Panel } from 'reactflow';
 import './Legend.css';
 
 const legendItems = [
@@ -70,7 +69,7 @@ const nodeTypes = [
 
 const Legend: React.FC = () => {
   return (
-    <Panel position="bottom-right" className="legend-panel">
+    <div className="legend-panel">
       <div className="legend-container">
         <div className="legend-section">
           <h3 className="legend-title">Edge Types</h3>
@@ -108,7 +107,7 @@ const Legend: React.FC = () => {
           ))}
         </div>
       </div>
-    </Panel>
+    </div>
   );
 };
 

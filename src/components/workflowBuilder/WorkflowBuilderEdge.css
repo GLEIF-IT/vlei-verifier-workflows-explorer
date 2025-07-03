@@ -1,0 +1,23 @@
+.react-flow__edge {
+  transition: all 0.2s ease;
+}
+
+.react-flow__edge:hover {
+  stroke-width: 3px;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2px;
+}
+
+.react-flow__edge-text {
+  font-size: 12px;
+  font-weight: 500;
+  fill: #595959;
+}
+
+.react-flow__edge-text-bg {
+  fill: white;
+  rx: 4;
+  ry: 4;
+} 

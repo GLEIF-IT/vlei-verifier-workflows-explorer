@@ -1,0 +1,195 @@
+.template-card {
+  background: white;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+  position: relative;
+  overflow: hidden;
+}
+
+.template-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  border-color: #1890ff;
+}
+
+.card-header {
+  margin-bottom: 15px;
+}
+
+.template-name {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.template-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.template-author {
+  font-style: italic;
+}
+
+.template-version {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.card-content {
+  flex: 1;
+  margin-bottom: 20px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Custom scrollbar for card content */
+.card-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.card-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+}
+
+.card-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.card-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.template-description {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.template-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+
+.tag {
+  background: #e6f7ff;
+  color: #1890ff;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid #91d5ff;
+}
+
+.template-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.info-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #333;
+  font-weight: 600;
+}
+
+.card-actions {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.load-template-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(24, 144, 255, 0.2);
+}
+
+.load-template-btn:hover {
+  background: #40a9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.load-template-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
+}
+
+/* Ensure cards don't overlap on smaller screens */
+@media (max-width: 768px) {
+  .template-card {
+    padding: 20px;
+    height: 340px;
+    margin-bottom: 16px;
+  }
+  
+  .template-name {
+    font-size: 1.2rem;
+  }
+  
+  .template-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .load-template-btn {
+    padding: 10px 16px;
+  }
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 480px) {
+  .template-card {
+    padding: 18px;
+    height: 320px;
+  }
+  
+  .template-name {
+    font-size: 1.1rem;
+  }
+  
+  .template-description {
+    font-size: 0.9rem;
+  }
+} 

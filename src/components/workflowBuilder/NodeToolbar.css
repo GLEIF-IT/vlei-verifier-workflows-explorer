@@ -1,0 +1,134 @@
+.node-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.toolbar-header {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 12px;
+}
+
+.toolbar-header h3 {
+  margin: 0 0 4px 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.node-id {
+  font-size: 0.8rem;
+  color: #666;
+  font-family: monospace;
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: white;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.edit-btn:hover {
+  background: #1890ff;
+  color: white;
+}
+
+.delete-btn {
+  border-color: #ff4d4f;
+  color: #ff4d4f;
+}
+
+.delete-btn:hover {
+  background: #ff4d4f;
+  color: white;
+}
+
+.btn-icon {
+  font-size: 0.9rem;
+}
+
+.config-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-details h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 4px;
+}
+
+.config-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.config-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.config-key {
+  color: #666;
+  font-weight: 500;
+}
+
+.config-value {
+  color: #333;
+  font-weight: 600;
+  font-family: monospace;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.no-config {
+  color: #999;
+  font-style: italic;
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  text-align: center;
+} 

@@ -56,6 +56,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  z-index: 5;
+  position: relative;
 }
 
 .upload-section {
@@ -95,13 +97,23 @@
 }
 
 .error-message {
-  margin-top: 12px;
-  padding: 8px 12px;
-  background: #fff1f0;
-  border-radius: 6px;
-  font-size: 12px;
   color: #ff4d4f;
-  border: 1px solid #ffa39e;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.success-message {
+  color: #52c41a;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+  font-size: 14px;
 }
 
 .file-info {
@@ -238,8 +250,11 @@ html, body {
 }
 
 .content-container {
+  flex: 1;
   display: flex;
-  height: calc(100vh - 100px); /* Adjust based on your toolbar height */
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
 }
 
 .graph-container {
@@ -250,4 +265,47 @@ html, body {
 .workflow-progress {
   width: 300px;
   flex-shrink: 0;
+}
+
+/* Navigation styles */
+.navigation {
+  display: flex;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  position: relative;
+}
+
+.nav-button {
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  min-width: 120px;
+}
+
+.nav-button:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.nav-button.active {
+  color: #1890ff;
+  border-bottom-color: #1890ff;
+  background: #f0f7ff;
+}
+
+/* Templates page specific styles */
+.templates-page {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f8f9fa;
 }
